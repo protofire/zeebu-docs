@@ -17,6 +17,9 @@ const props = defineProps({
   searchFn: {
     type: Function,
   },
+  loading: {
+    type: Boolean,
+  },
 });
 
 const searchValue = ref('');
@@ -56,7 +59,11 @@ watch(searchValue, () => {
     <div v-if="searchFn" class="menu-divider">
       <hr />
     </div>
+    <div v-if="loading" class="loading-item">
+      <p>loading...</p>
+    </div>
     <RecycleScroller
+      v-if="!loading"
       v-slot="{ item }"
       class="scroller"
       :items="filteredOptions"
@@ -70,6 +77,11 @@ watch(searchValue, () => {
   </ListboxOptions>
 </template>
 <style scoped>
+div.loading-item {
+  display: flex;
+  justify-content: center;
+}
+
 ul {
   list-style: none;
 }

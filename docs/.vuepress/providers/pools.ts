@@ -14,6 +14,7 @@ export const poolsProvider = () => {
   });
 
   async function initPools() {
+    if (!network.value) return;
     isLoading.value = true;
 
     const poolProvider = new SubgraphPoolProvider(network.value.id, undefined, {

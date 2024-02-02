@@ -7,7 +7,7 @@ import { useNetwork } from '../providers/network';
 export const veSystemProvider = () => {
   const { network } = useNetwork();
 
-  const subgraphUrl = ref(CONFIG.get(network.value.id)?.SUBGRAPH_URL);
+  const subgraphUrl = ref('');
 
   watch(network, value => {
     subgraphUrl.value = CONFIG.get(value.id)?.SUBGRAPH_URL;
