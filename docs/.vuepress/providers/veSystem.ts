@@ -46,6 +46,16 @@ export const veSystemProvider = () => {
     isLoading.value = false;
   };
 
+  async function fetchByAddressOrName(addressOrName: string) {
+    isLoading.value = true;
+
+    const _pools = await graph.value.getVeSystemsByAddressOrName(addressOrName);
+
+    data.value = _pools;
+
+    isLoading.value = false;
+  }
+
   return {
     data,
     selected,
@@ -53,6 +63,7 @@ export const veSystemProvider = () => {
     fetch,
     select,
     fetchByAdmin,
+    fetchByAddressOrName,
   };
 };
 

@@ -141,7 +141,7 @@ const tokens = computed<[string, string][]>(() => {
 </script>
 
 <template>
-  <div key="nWeek" class="item-row">
+  <div v-if="veSystem !== undefined" key="nWeek" class="item-row">
     <p class="item-name">
       Add Rewards into N Weeks
       <Tooltip

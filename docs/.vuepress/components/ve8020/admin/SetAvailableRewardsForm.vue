@@ -59,7 +59,7 @@ const removeToken = (index: number) => {
 </script>
 
 <template>
-  <div class="item-row">
+  <div v-if="veSystem !== undefined" class="item-row">
     <p class="item-name">
       Set Available Rewards
       <Tooltip
@@ -142,7 +142,7 @@ input[type='number'] {
 }
 
 .item-row .item-name {
-  width: 35%;
+  width: 36%;
   max-width: 350px;
   font-size: 14px;
   font-weight: 500;

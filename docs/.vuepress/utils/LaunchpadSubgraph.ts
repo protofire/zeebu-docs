@@ -209,4 +209,96 @@ export class LaunchpadSubgraph {
 
     return format(vesystem);
   }
+
+  public async getVeSystemsByAddressOrName(
+    addressOrSymbol: string
+  ): Promise<VeSystem[]> {
+    if (ethers.isAddress(addressOrSymbol)) {
+      return this.getVeSystemsByAddress(addressOrSymbol);
+    }
+
+    return this.getVeSystemsByName(addressOrSymbol);
+  }
+
+  public async getVeSystemsByAddress(address: string): Promise<VeSystem[]> {
+    const query = gql(`
+      query GetVeSystemsQuery($address: Bytes!) {
+        vesystems(where: { bptToken: $address }) {
+          id
+          bptToken
+          bptTokenName
+          admin
+          votingEscrow {
+            id
+            address
+            name
+            symbol
+            lockedAmount
+            supplyVestedPercent
+          }
+          rewardFaucetAddress
+          rewardDistributorAddress
+          rewardDistributor {
+            id
+            rewardTokens {
+              id
+              name
+              address
+              symbol
+              decimals
+              availableRewardAmount
+            }
+            rewardStartTime
+          }
+        }
+      }
+    `);
+
+    const {
+      data: { vesystems },
+    } = await this.client.query({ query, variables: { address } });
+
+    return vesystems;
+  }
+
+  public async getVeSystemsByName(name: string): Promise<VeSystem[]> {
+    const query = gql(`
+      query GetVeSystemsQuery($name: String!) {
+        vesystems(where: { votingEscrow_: { name_contains_nocase: $name } }) {
+          id
+          bptToken
+          bptTokenName
+          admin
+          votingEscrow {
+            id
+            address
+            name
+            symbol
+            lockedAmount
+            supplyVestedPercent
+          }
+          rewardFaucetAddress
+          rewardDistributorAddress
+          rewardDistributor {
+            id
+            rewardTokens {
+              id
+              name
+              address
+              symbol
+              decimals
+              availableRewardAmount
+            }
+            rewardStartTime
+          }
+        }
+      }
+    `);
+
+    const {
+      data: { vesystems },
+    } = await this.client.query({ query, variables: { name } });
+
+    return vesystems;
+  }
 }
