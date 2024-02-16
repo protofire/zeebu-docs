@@ -48,7 +48,7 @@ watch(items, value => console.log('items', value));
   <div class="section-container">
     <div class="item-row">
       <p class="item-name">Select veSystem</p>
-      <div class="vesystem-select">
+      <div class="item-selector">
         <ItemSelector
           :items="items"
           :onChange="handleVeSystemChange"
@@ -84,7 +84,7 @@ watch(items, value => console.log('items', value));
   gap: 10px;
 }
 
-.item-row .vesystem-select {
+.item-row .item-selector {
   display: flex;
   flex-direction: column;
   gap: 16px;

@@ -55,7 +55,10 @@ watch(
 </template>
 
 <style>
-.token-select ul.menu {
-  width: 340px;
+.item-selector ul.menu {
+  width: 100%;
+}
+.item-selector .select {
+  width: 100%;
 }
 </style>
