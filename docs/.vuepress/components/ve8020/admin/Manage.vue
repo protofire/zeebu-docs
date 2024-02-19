@@ -16,7 +16,7 @@ import {
   earlyUnlockHint,
   unlockAllHint,
 } from '../../../constants/hints';
-import ItemSelector, { ItemType } from './ItemSelector.vue';
+import ItemSelector, { ItemType } from '../ItemSelector.vue';
 
 const { walletProvider } = useWeb3ModalProvider();
 const { network } = useNetwork();

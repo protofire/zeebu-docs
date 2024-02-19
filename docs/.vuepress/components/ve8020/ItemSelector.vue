@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, defineProps } from 'vue';
-import { Select, SelectTrigger, SelectOptions } from '../../Select';
+import { Select, SelectTrigger, SelectOptions } from '../Select';
 
 export type ItemType = {
   id: string;

@@ -4,7 +4,7 @@ import AddRewardsCurrentWeek from './AddRewardsCurrentWeek.vue';
 import AddRewardsNWeeks from './AddRewardsNWeeks.vue';
 import AddRewardsExactWeek from './AddRewardsExactWeek.vue';
 import { useVeSystem } from '../../../providers/veSystem';
-import ItemSelector, { ItemType } from './ItemSelector.vue';
+import ItemSelector, { ItemType } from '../ItemSelector.vue';
 import { computed, ref, watch } from 'vue';
 import { VeSystem, debounce } from '../../../utils';
 
