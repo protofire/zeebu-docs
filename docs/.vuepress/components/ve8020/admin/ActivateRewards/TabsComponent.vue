@@ -26,12 +26,12 @@ const { tab, select } = useTabs();
       >
         BAL Gauge Rewards
       </div>
-      <div
+      <!-- <div
         :class="{ tab: true, 'active-tab': tab === Tab.FORM_3 }"
         @click="select(Tab.FORM_3)"
       >
         AAVE Rewards for Lockers (stay tuned!)
-      </div>
+      </div> -->
     </div>
 
     <div v-show="tab === Tab.FORM_1" class="body-container">

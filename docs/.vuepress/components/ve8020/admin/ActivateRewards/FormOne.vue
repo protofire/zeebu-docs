@@ -4,6 +4,7 @@ import { useWeb3ModalProvider } from '@web3modal/ethers/vue';
 import { useNetwork } from '../../../../providers/network';
 import { BrowserProvider } from 'ethers';
 import SuccessModal from './SuccessModal.vue';
+import emailjs from '@emailjs/browser';
 
 const { network } = useNetwork();
 const { walletProvider } = useWeb3ModalProvider();
@@ -27,6 +28,10 @@ const sign = async () => {
   if (!walletProvider.value) return;
   loading.value = true;
 
+  emailjs.init({
+    publicKey: 'elMhbhKlRmHNBcqTn',
+  });
+
   try {
     const provider = new BrowserProvider(
       walletProvider.value,
@@ -36,6 +41,23 @@ const sign = async () => {
     const signature = await signer.signMessage(message);
     console.log(signature);
     isModalOpen.value = true;
+
+    var templateParams = {
+      projectName: projectName.value,
+      projectWebsite: projectWebsite.value,
+      email: email.value,
+      telegram: telegram.value,
+      networks: networks.value,
+    };
+
+    emailjs.send('service_y615itc', 'template_zce9pqx', templateParams).then(
+      response => {
+        console.log('SUCCESS!', response.status, response.text);
+      },
+      error => {
+        console.log('FAILED...', error);
+      }
+    );
   } catch (error) {
     console.log(error);
   } finally {

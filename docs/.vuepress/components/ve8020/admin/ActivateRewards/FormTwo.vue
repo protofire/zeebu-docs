@@ -7,6 +7,7 @@ import SuccessModal from './SuccessModal.vue';
 import { usePools } from '../../../../providers/balancerPools';
 import TokenSelector, { TokenType } from '../TokenSelector.vue';
 import { debounce } from '../../../../utils';
+import emailjs from '@emailjs/browser';
 
 const {
   pools,
@@ -45,6 +46,10 @@ const sign = async () => {
   if (!walletProvider.value) return;
   loading.value = true;
 
+  emailjs.init({
+    publicKey: 'elMhbhKlRmHNBcqTn',
+  });
+
   try {
     const provider = new BrowserProvider(
       walletProvider.value,
@@ -54,6 +59,34 @@ const sign = async () => {
     const signature = await signer.signMessage(message);
     console.log(signature);
     isModalOpen.value = true;
+
+    var templateParams = {
+      token: selectedPool.value?.address,
+      summary: summary.value,
+      references: references.value,
+      protocolDesc: protocolDesc.value,
+      motivation: motivation.value,
+      specifications: specifications.value,
+      governance: governance.value,
+      oracles: oracles.value,
+      audits: audits.value,
+      centralizationVectors: centralizationVectors.value,
+      marketHistory: marketHistory.value,
+      value: value.value,
+      gaugeContract: gaugeContract.value,
+      rateProviderReview: rateProviderReview.value,
+      balancerMultisig: balancerMultisig.value,
+      corePoolStatus: corePoolStatus.value ? 'yes' : 'no',
+    };
+
+    emailjs.send('service_y615itc', 'template_maee3hl', templateParams).then(
+      response => {
+        console.log('SUCCESS!', response.status, response.text);
+      },
+      error => {
+        console.log('FAILED...', error);
+      }
+    );
   } catch (error) {
     console.log(error);
   } finally {
