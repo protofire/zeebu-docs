@@ -37,10 +37,10 @@ const loading = ref(false);
 const isModalOpen = ref(false);
 
 const response =
-  'Nice move! Your Reward Program Activation is in progress. Check Reward Programs page for status of your request, or reach out via Discord for status check at any time.';
+  'Nice move! Your Reward Program Activation is in progress. We will soon contact you via the communication channels provided in the form to proceed with the next steps.';
 
 const message =
-  "I confirm that I'm a representative of the project associated with the Balancer Pool Token containing at least 20% GHO and that 100% of the Reward granted under this program will be distributed only to those 0x addresses who lock BPT in the Voting Escrow contracts for a period of 4 months, or longer lock periods.";
+  "I confirm that I'm a representative of the project associated with the Balancer Pool Token containing at least 20% of your token and that 100% of the Reward granted under this program will be distributed only to those 0x addresses who lock BPT in the Voting Escrow contracts for a period of 4 months, or longer lock periods.";
 
 const sign = async () => {
   if (!walletProvider.value) return;
