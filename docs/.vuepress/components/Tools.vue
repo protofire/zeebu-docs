@@ -72,18 +72,17 @@ const coreTools = [
     link: '/tools/core/smart-order-router.html',
   },
   {
-    title: 've8020 Launchpad Admin Panel',
+    title: 'veLaunchpad Admin Panel',
     icon: '/images/protofire.png',
-    details: 'Admin Panel to launch a ve8020 system',
-    link: '/tools/core/admin-ve8020.html',
+    details: 'Admin Panel to launch a ve8020 system - created by Protofire DAO',
+    link: '/tools/core/veLaunchpad%20Admin%20Panel/step-1.html',
   },
   {
     title: 've8020 User Panel',
     icon: '/images/protofire.png',
-    details: 'User panel for ve8020 system',
-    link: '/tools/core/ve8020.html',
+    details: 'User panel for ve8020 system - created by Protofire DAO',
+    link: '/tools/core/ve8020%20User%20Panel/step-1.html',
   },
-  
   // Add more Core Tools as needed
 ];
 
