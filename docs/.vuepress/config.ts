@@ -21,7 +21,7 @@ export default defineUserConfig({
   locales: {
     '/': {
       lang: 'en-US',
-      title: 'Balancer',
+      title: 'Zeebu',
       description: 'Learn, integrate, and build on a programmable AMM',
     },
   },
