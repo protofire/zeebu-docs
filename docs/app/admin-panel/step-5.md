@@ -1,6 +1,6 @@
 ---
 title: Manage veSystem deployment
-order: 4
+order: 3
 ---
 
 ### Manage veSystem deployment

@@ -1,6 +1,6 @@
 ---
 title: View available veSystem rewards
-order: 5
+order: 4
 ---
 
 ### View available veSystem rewards

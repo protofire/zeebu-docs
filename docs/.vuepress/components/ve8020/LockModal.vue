@@ -43,7 +43,7 @@ const releaseTime = computed<number>(() => {
       <h3 class="modal-title">Lock Token</h3>
       <div class="body">
         <div class="item-row">
-          <p class="item-name">Underlying 8020 BPT Amount</p>
+          <p class="item-name">Token Amount</p>
           <div class="input-group">
             <input
               v-model="amountInput"

@@ -21,7 +21,7 @@ export default defineUserConfig({
   locales: {
     '/': {
       lang: 'en-US',
-      title: 'Zeebu',
+      title: 'ZBU Staking',
       description: 'Learn, integrate, and build on a programmable AMM',
     },
   },
@@ -37,8 +37,8 @@ export default defineUserConfig({
 
   // configure default theme
   theme: balancerTheme({
-    logo: '/images/logo-light.svg',
-    logoDark: '/images/logo-dark.svg',
+    logo: '/images/zeebu-logo.svg',
+    logoDark: '/images/zeebu-logo.svg',
     repo: 'balancer-labs/docs',
     docsDir: 'docs',
     lastUpdated: false,
