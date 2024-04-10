@@ -47,7 +47,13 @@ watch(
         <button class="btn close" @click="props.onClose">Close</button>
         <button
           class="btn submit"
-          @click="earlyPenaltyInput && props.onSubmit(earlyPenaltyInput)"
+          :disabled="
+            earlyPenaltyInput === undefined ||
+            earlyPenaltyInput.toString() === ''
+          "
+          @click="
+            earlyPenaltyInput !== undefined && props.onSubmit(earlyPenaltyInput)
+          "
         >
           Set Penalty
         </button>
@@ -204,5 +210,11 @@ input[type='number'] {
 .modal-popup .btn-group .btn.close {
   border: 1px solid #384aff;
   background-color: rgba(56, 74, 255, 0.2);
+}
+
+.modal-popup .btn-group .btn:disabled {
+  cursor: not-allowed;
+  background-color: rgba(56, 74, 255, 0.2);
+  color: grey;
 }
 </style>
