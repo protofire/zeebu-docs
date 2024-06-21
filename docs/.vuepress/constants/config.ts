@@ -100,9 +100,9 @@ export const CONFIG = new Map<number, Config>([
     11155111, // sepolia
     {
       SUBGRAPH_URL:
-        'https://api.thegraph.com/subgraphs/name/maxkmyt/launchpad_sepolia',
-      LAUNCHPAD_CONTRACT: '0x7af720678f7aa15542acdcf6d613c7a94e0cf703',
-      LENS_REWARD_CONTRACT: '0xa5ef725d0becf0262450bb255f4341d5da40e489',
+        'https://api.studio.thegraph.com/query/75975/zeebu-subgraph-sepolia/v0.0.25',
+      LAUNCHPAD_CONTRACT: '0xDA7aF44D5e27b12F53af43BAF90575404c7d19e8',
+      LENS_REWARD_CONTRACT: '0xB71aA6EAA551523d7f449E899FB12af5227A7665',
       BALANCER_SUBGRAPH_URL:
         'https://api.studio.thegraph.com/query/24660/balancer-sepolia-v2/version/latest',
     },
