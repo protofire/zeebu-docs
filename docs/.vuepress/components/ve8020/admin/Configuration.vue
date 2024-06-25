@@ -160,11 +160,7 @@ const handleSetEarlyPenalty = async (penalty: number) => {
 };
 
 const formFields = computed(() => {
-  const startTime = veSystem.value
-    ? secondsToDate(
-        parseInt(veSystem.value.rewardDistributor.rewardStartTime.toString())
-      ).toLocaleDateString()
-    : '';
+  const startTime = '';
   const supplyVested = veSystem.value
     ? parseFloat(veSystem.value.votingEscrow.supplyVestedPercent) * 100
     : 0;

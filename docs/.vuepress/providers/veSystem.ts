@@ -40,8 +40,13 @@ export const veSystemProvider = () => {
   const select = async (id: string) => {
     isLoading.value = true;
 
-    const veSystem = await graph.value.getVeSystem(id);
-    selected.value = veSystem;
+    try {
+      const veSystem = await graph.value.getVeSystem(id);
+      selected.value = veSystem;
+    }
+    catch (error) {
+      console.error(error.message);
+    }
 
     isLoading.value = false;
   };

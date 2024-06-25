@@ -18,7 +18,6 @@ type RewardToken = {
 type RewardDistributor = {
   id: string;
   rewardTokens: RewardToken[];
-  rewardStartTime: BigNumberish;
 };
 
 type VotingEscrow = {
@@ -38,7 +37,6 @@ export type VeSystem = {
   votingEscrow: VotingEscrow;
   rewardDistributor: RewardDistributor;
   rewardDistributorAddress: string;
-  rewardFaucetAddress: string;
   admin: string;
 };
 
@@ -91,7 +89,6 @@ export class LaunchpadSubgraph {
             supplyVestedPercent
           }
           rewardDistributorAddress
-          rewardFaucetAddress
           rewardDistributor {
             id
             rewardTokens {
@@ -140,7 +137,6 @@ export class LaunchpadSubgraph {
             supplyVestedPercent
           }
           rewardDistributorAddress
-          rewardFaucetAddress
           rewardDistributor {
             id
             rewardTokens {
@@ -182,7 +178,6 @@ export class LaunchpadSubgraph {
             lockedAmount
             supplyVestedPercent
           }
-          rewardFaucetAddress
           rewardDistributorAddress
           rewardDistributor {
             id
@@ -194,7 +189,6 @@ export class LaunchpadSubgraph {
               decimals
               availableRewardAmount
             }
-            rewardStartTime
           }
         }
       }
@@ -236,7 +230,6 @@ export class LaunchpadSubgraph {
             lockedAmount
             supplyVestedPercent
           }
-          rewardFaucetAddress
           rewardDistributorAddress
           rewardDistributor {
             id
@@ -248,17 +241,21 @@ export class LaunchpadSubgraph {
               decimals
               availableRewardAmount
             }
-            rewardStartTime
           }
         }
       }
     `);
 
+try {
     const {
       data: { vesystems },
     } = await this.client.query({ query, variables: { address } });
-
     return vesystems;
+    }
+    catch (e) {
+      console.error(e.message)
+    }
+    return []
   }
 
   public async getVeSystemsByName(name: string): Promise<VeSystem[]> {
@@ -277,7 +274,6 @@ export class LaunchpadSubgraph {
             lockedAmount
             supplyVestedPercent
           }
-          rewardFaucetAddress
           rewardDistributorAddress
           rewardDistributor {
             id
@@ -289,7 +285,6 @@ export class LaunchpadSubgraph {
               decimals
               availableRewardAmount
             }
-            rewardStartTime
           }
         }
       }
