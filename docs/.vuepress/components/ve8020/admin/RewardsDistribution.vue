@@ -1,8 +1,5 @@
 <script setup lang="ts">
-import SetAvailableRewardsForm from './SetAvailableRewardsForm.vue';
-import AddRewardsCurrentWeek from './AddRewardsCurrentWeek.vue';
-import AddRewardsNWeeks from './AddRewardsNWeeks.vue';
-import AddRewardsExactWeek from './AddRewardsExactWeek.vue';
+import AddRewardsDistribution from './AddRewardsDistribution.vue';
 import { ref, computed } from 'vue';
 import AvailableRewardsModal from './AvailableRewardsModal.vue';
 import { useVeSystem } from '../../../providers/veSystem';
@@ -32,10 +29,7 @@ const availableRewards = computed(() => {
 
 <template>
   <div class="section-container">
-    <SetAvailableRewardsForm />
-    <AddRewardsCurrentWeek />
-    <AddRewardsNWeeks />
-    <AddRewardsExactWeek />
+    <AddRewardsDistribution />
   </div>
   <div class="btn-group">
     <button class="available-button" @click="handleOpenAvailableRewardsModal">
