@@ -1,5 +1,5 @@
 ---
-title: "Step 3: Add your own reward programs"
+title: "Step 4: Add your own reward programs"
 order: 3
 ---
 

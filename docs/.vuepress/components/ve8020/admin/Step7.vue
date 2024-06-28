@@ -2,15 +2,17 @@
 import { createProviderComponent } from '../../../providers/createProviderComponent';
 import { provideNetwork } from '../../../providers/network';
 import { provideVeSystem } from '../../../providers/veSystem';
+import { provideTabs, Tab } from '../../../providers/tabs';
 import { provideBalancerPools } from '../../../providers/balancerPools';
-
-import Wallet from '../../Navbar/Wallet.vue';
-import GrantRole from './GrantRole.vue';
+import TabsComponent from './ActivateRewards/TabsComponent.vue';
 
 const NetworkProvider = createProviderComponent(() => provideNetwork());
 const VeSystemProvider = createProviderComponent(() => provideVeSystem());
 const BalancerPoolsProvider = createProviderComponent(() => {
   provideBalancerPools();
+});
+const TabsProvider = createProviderComponent(() => {
+  provideTabs(Tab.FORM_1);
 });
 </script>
 
@@ -18,14 +20,9 @@ const BalancerPoolsProvider = createProviderComponent(() => {
   <NetworkProvider>
     <BalancerPoolsProvider>
       <VeSystemProvider>
-        <div class="network-select">
-          <Wallet />
-        </div>
-        <div class="main-container">
-          <div class="body-container">
-            <GrantRole />
-          </div>
-        </div>
+        <TabsProvider>
+          <TabsComponent />
+        </TabsProvider>
       </VeSystemProvider>
     </BalancerPoolsProvider>
   </NetworkProvider>

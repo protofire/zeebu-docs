@@ -22,11 +22,13 @@ type AllowanceFunctionType = (
 type UseControllerReturnType = {
   approve: Ref<ApproveFunctionType | undefined>;
   allowance: Ref<AllowanceFunctionType | undefined>;
+  decimals: Ref<((token: string) => Promise<number>) | undefined>;
 };
 
 const ERC20 = [
   'function approve(address spender, uint256 amount) external returns (bool)',
   'function allowance(address owner, address spender) view returns (uint256)',
+  'function decimals() view returns (uint8)',
 ];
 
 export const useController = ({
@@ -46,6 +48,7 @@ export const useController = ({
 }): UseControllerReturnType => {
   const approve = ref<ApproveFunctionType>();
   const allowance = ref<AllowanceFunctionType>();
+  const decimals = ref<(token: string) => Promise<number>>();
 
   const initialize = () => {
     approve.value = async (
@@ -69,6 +72,19 @@ export const useController = ({
         callbacks
       );
     };
+
+    decimals.value = async (token: string): Promise<number> => {
+      if (!walletProvider.value) return 0;
+
+      const provider = new BrowserProvider(
+        walletProvider.value,
+        network.value.id
+      );
+
+      const contract = new ethers.Contract(token, ERC20, provider);
+
+      return await contract.decimals();
+    }
 
     allowance.value = async (
       token: string,
@@ -95,6 +111,7 @@ export const useController = ({
 
   return {
     approve,
+    decimals,
     allowance,
   };
 };

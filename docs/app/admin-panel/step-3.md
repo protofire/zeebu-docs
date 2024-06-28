@@ -1,8 +1,8 @@
 ---
-title: "Apply for BAL Airdrop to ZBU stakers adding ~16% APY (Optional)"
-order: 5
+title: "Step 3: Grant Reward Distributor Role"
+order: 2
 ---
 
-### Apply for BAL Airdrop to ZBU stakers adding ~16% APY (Optional)
+### Step 3:  Grant Reward Distributor Role
 
 <ve8020-admin-Step3 />

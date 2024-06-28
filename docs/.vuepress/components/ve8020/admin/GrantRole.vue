@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AddRewardsDistribution from './AddRewardsDistribution.vue';
+import GrantRewardDistributorRole from './GrantRewardDistributorRole.vue';
 import { useVeSystem } from '../../../providers/veSystem';
 import ItemSelector, { ItemType } from '../ItemSelector.vue';
 import { computed, ref, watch } from 'vue';
@@ -56,7 +56,7 @@ watch(items, value => console.log('items', value));
         />
       </div>
     </div>
-    <AddRewardsDistribution />
+    <GrantRewardDistributorRole />
   </div>
 </template>
 

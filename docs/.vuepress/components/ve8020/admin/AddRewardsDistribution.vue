@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import Selector from './Selector.vue';
 import { useWeb3ModalProvider } from '@web3modal/ethers/vue';
 import { useNetwork } from '../../../providers/network';
-import { useController } from '../../../utils/RewardFaucetController';
+import { useController } from '../../../utils/RewardsDistributionController';
+import { useController as useTokenController } from '../../../utils/TokenController'
 import { useVeSystem } from '../../../providers/veSystem';
 import { toBigInt, ethers } from 'ethers';
-import { dateToSeconds, getSelectorTokenItems } from '../../../utils';
-import { addRewardsIntoExactWeekHint } from '../../../constants/hints';
-import Tooltip from './Tooltip.vue';
+import { dateToSeconds } from '../../../utils';
 
 const { walletProvider } = useWeb3ModalProvider();
 const { selected: veSystem } = useVeSystem();
 const { network } = useNetwork();
-const { tokenAllowance, approveToken, depositExactWeek } = useController({
+const { tokenAllowance, approveToken, addRewardDistribution } = useController({
   walletProvider,
   network,
   veSystem,
+});
+
+const { decimals: tokenDecimals } = useTokenController({
+  walletProvider,
+  network,
 });
 
 const token = ref<string>('');
@@ -27,9 +30,8 @@ const allowance = ref<bigint>(toBigInt(0));
 const isLoading = ref<boolean>(false);
 
 const amount = computed<bigint>(() => {
-  if (amountInput.value === '') return toBigInt(0);
-
-  return ethers.parseUnits(amountInput.value.toString(), decimals.value);
+  if (amountInput.value === '' || !amountInput.value) return toBigInt(0);
+  return ethers.parseUnits(amountInput.value.toString(), Number(decimals.value));
 });
 
 const week = computed<bigint>(() => {
@@ -52,35 +54,25 @@ const showApprove = computed<boolean>(
 const fetchAllowance = async () => {
   const tokenAllowanceResult = await tokenAllowance.value?.(token.value);
 
-  console.log('allowance: ', tokenAllowanceResult);
-
   allowance.value = tokenAllowanceResult || toBigInt(0);
 };
+
+const fetchDecimals = async () => {
+  const tokenDecimalsResult = await tokenDecimals.value?.(token.value);
+
+  decimals.value = tokenDecimalsResult?.toString() || '';
+}
 
 watch(token, async value => {
   if (value === '') return;
 
   await fetchAllowance();
+  await fetchDecimals();
 });
 
-// set token address and decimals
-const handleSelectToken = (address: string) => {
-  if (!veSystem.value) return;
-
-  const rewardToken = veSystem.value.rewardDistributor.rewardTokens.find(
-    rt => rt.address === address
-  );
-
-  if (!rewardToken) return;
-
-  token.value = address;
-
-  decimals.value = rewardToken.decimals;
-};
-
 const handleSubmit = async () => {
-  await depositExactWeek.value?.(
-    { token: token.value, amount: amount.value, weekTimestamp: week.value },
+  await addRewardDistribution.value?.(
+    { token: token.value, amount: amount.value, rewardTimestamp: week.value },
     {
       onPrompt: () => {
         console.log('prompt');
@@ -133,35 +125,22 @@ const handleApprove = async () => {
   );
 };
 
-const tokens = computed<[string, string][]>(() => {
-  if (veSystem.value === undefined) return [];
-
-  return getSelectorTokenItems(veSystem.value);
-});
 </script>
 
 <template>
   <div v-if="veSystem !== undefined" key="exactWeek" class="item-row">
     <p class="item-name">
-      Add Rewards into Exact Week
-      <Tooltip
-        :text="addRewardsIntoExactWeekHint"
-        :width="350"
-        position="left-bottom"
-        :fontSize="12"
-      >
-        <svg width="16" height="16" class="icon">
-          <use href="/images/exclamation-circle.svg#icon"></use>
-        </svg>
-      </Tooltip>
+      Add Rewards Distribution
     </p>
     <div class="item-action">
-      <Selector
-        :items="tokens"
-        :selected="token"
-        prompt="Select Token"
-        :onChange="handleSelectToken"
-      />
+      <div class="input-group">
+        <input
+          v-model="token"
+          placeholder="0xa0b...6eb48"
+          type="text"
+          class="input"
+        />
+      </div>
       <input
         v-model="amountInput"
         placeholder="Amount"

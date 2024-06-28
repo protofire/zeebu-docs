@@ -1,0 +1,211 @@
+<script setup lang="ts">
+import { keccak256, toUtf8Bytes } from 'ethers';
+import { computed, ref, watch } from 'vue';
+import { useWeb3ModalProvider } from '@web3modal/ethers/vue';
+
+import { useVeSystem } from '../../../providers/veSystem';
+import { useNetwork } from '../../../providers/network';
+import { useController } from '../../../utils/RewardsDistributionController';
+import { VeSystem, debounce } from '../../../utils';
+
+
+const { walletProvider } = useWeb3ModalProvider();
+const { selected: veSystem } = useVeSystem();
+const { network } = useNetwork();
+const { grantRole } = useController({
+  walletProvider,
+  network,
+  veSystem,
+});
+
+
+const REWARD_DISTRIBUTOR_ROLE = keccak256(toUtf8Bytes("REWARD_DISTRIBUTOR_ROLE"));
+console.log('REWARD_DISTRIBUTOR_ROLE', REWARD_DISTRIBUTOR_ROLE);
+const filteredVeSystems = ref<VeSystem[]>([]);
+const address = ref<string>('');
+const isLoading = ref<boolean>(false);
+
+const items = computed(() => {
+  return filteredVeSystems.value.map(x => ({
+    id: x.id,
+    name: x.votingEscrow.name,
+  }));
+});
+
+const handleSubmit = async () => {
+  await grantRole.value?.(
+    { account: address.value, role: REWARD_DISTRIBUTOR_ROLE},
+    {
+      onPrompt: () => {
+        console.log('prompt');
+        isLoading.value = true;
+      },
+      onSubmitted: ({ tx }) => {
+        console.log('submitted', tx);
+      },
+      onSuccess: ({ receipt }) => {
+        console.log('success', receipt);
+        isLoading.value = false;
+        clearForm();
+      },
+      onError: err => {
+        console.log('err', err);
+        isLoading.value = false;
+        clearForm();
+      },
+    }
+  );
+};
+
+const clearForm = () => {
+  address.value = '';
+};
+
+
+watch(items, value => console.log('items', value));
+</script>
+
+<template>
+  <div class="section-container">
+    <div v-if="veSystem !== undefined" class="item-row">
+      <p class="item-name">Grant Reward Distributor Role</p>
+      <div class="item-action">
+      <div class="input-group">
+        <input
+          v-model="address"
+          placeholder="0xa0b...6eb48"
+          type="text"
+          class="input"
+        />
+      </div>
+      <button
+        :disabled="isLoading"
+        class="submit-button"
+        @click="handleSubmit"
+      >
+        Grant
+      </button>
+    </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.item-row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 700px;
+  height: 45px;
+  gap: 10px;
+}
+
+.item-row .item-name {
+  width: 35%;
+  max-width: 350px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.item-row .item-name .icon {
+  fill: #2c3e50;
+}
+.dark .item-row .item-name .icon {
+  fill: #ffffff;
+}
+.item-row .item-action {
+  display: flex;
+  width: 65%;
+  align-items: center;
+  height: 100%;
+  gap: 10px;
+}
+
+.item-row .input-group {
+  height: 100%;
+}
+
+.item-row .input-group.calendar-container {
+  width: 130px;
+  position: relative;
+}
+
+.item-row .input-group .input,
+.item-row .item-action .input-amount {
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+  position: relative;
+  border-radius: 6px;
+  height: 100%;
+  width: 100%;
+  padding-inline: 20px;
+  font-size: 14px;
+  outline: none;
+  display: flex;
+  align-items: center;
+}
+.item-row .input-group.calendar-container .title-input {
+  position: absolute;
+  font-size: 11px;
+  margin: 0;
+  top: 1px;
+}
+
+.item-row .input-group.calendar-container .title-input {
+  left: 5px;
+}
+
+.item-row .item-action .input-amount {
+  width: 70px;
+  padding-inline: 10px;
+}
+
+.item-row .item-action .input-group.calendar-container .input {
+  width: 130px;
+  padding-inline: 10px;
+  padding-top: 10px;
+}
+.dark .item-row .input-group .input,
+.dark .item-row .item-action .input-amount {
+  border: 1px solid #3e4c5a;
+}
+
+.item-row .input-group .input:focus,
+.dark .item-row .item-action .input-amount:focus {
+  border: 1px solid #384aff;
+}
+
+.submit-button {
+  min-width: 75px;
+  height: 45px;
+  background-color: #eaf0f6;
+  border-radius: 6px;
+  cursor: pointer;
+  align-self: flex-end;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: none;
+  border: none;
+}
+
+.dark .submit-button {
+  background-color: #384aff;
+}
+.submit-button:disabled {
+  background-color: rgba(56, 74, 255, 0.2);
+  cursor: not-allowed;
+}
+</style>
