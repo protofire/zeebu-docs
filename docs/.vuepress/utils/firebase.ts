@@ -1,6 +1,5 @@
 import { FirebaseOptions, initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getFunctions } from "firebase/functions";
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import { getMessaging } from "firebase/messaging";
 
 console.log('API Key:', process.env.VUE_APP_FIREBASE_API_KEY);
@@ -16,6 +15,5 @@ const firebaseConfig: FirebaseOptions = {
 };
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app);
-export const functions = getFunctions(app);
-export const messaging = getMessaging(app);
+const functions = getFunctions(app);
+export { functions, httpsCallable };

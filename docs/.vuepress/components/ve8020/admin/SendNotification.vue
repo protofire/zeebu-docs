@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { VeSystem } from '../../../utils';
-import { functions } from '../../../utils/firebase';
-import { httpsCallable } from 'firebase/functions';
+import { functions, httpsCallable } from '../../../utils/firebase';
 
 
 const filteredVeSystems = ref<VeSystem[]>([]);
