@@ -8,10 +8,13 @@ import { registerComponentsPlugin } from '@vuepress/plugin-register-components';
 import { getDirname, path } from '@vuepress/utils';
 import { balancerTheme } from '../../theme/';
 import { navbar, sidebar } from './configs/index.js';
+import * as dotenv from 'dotenv';
 
 const isProd = process.env.NODE_ENV === 'production';
 
 const __dirname = getDirname(import.meta.url);
+
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
 
 export default defineUserConfig({
   // set site base to default value

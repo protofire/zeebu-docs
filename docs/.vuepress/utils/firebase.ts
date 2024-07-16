@@ -3,14 +3,16 @@ import { getFirestore } from "firebase/firestore";
 import { getFunctions } from "firebase/functions";
 import { getMessaging } from "firebase/messaging";
 
+console.log('API Key:', process.env.VUE_APP_FIREBASE_API_KEY);
+
 const firebaseConfig: FirebaseOptions = {
-  apiKey: "AIzaSyDbUunQTsOftgn9GsG8c2grVQn5WQKYFLo",
-  authDomain: "zeebu-staking.firebaseapp.com",
-  projectId: "zeebu-staking",
-  storageBucket: "zeebu-staking.appspot.com",
-  messagingSenderId: "796248911548",
-  appId: "1:796248911548:web:69337b2a972225b34aeab9",
-  measurementId: "G-ZRWP3GN7FE",
+  apiKey: process.env.VUE_APP_FIREBASE_API_KEY,
+  authDomain: process.env.VUE_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.VUE_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.VUE_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.VUE_APP_FIREBASE_APP_ID,
+  measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
