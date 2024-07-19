@@ -1,18 +1,16 @@
+<!-- .vuepress/components/Login.vue -->
 <script setup>
 import { createProviderComponent } from '../../../providers/createProviderComponent';
 import { provideNetwork } from '../../../providers/network';
 import { provideVeSystem } from '../../../providers/veSystem';
 import { provideBalancerPools } from '../../../providers/balancerPools';
-
 import Wallet from '../../Navbar/Wallet.vue';
-import GrantWhitelist from './GrantWhitelist.vue';
-import RemoveWhitelist from './RemoveWhitelist.vue';
+import WhitelistCheck from './WhitelistCheck.vue';
 
 const NetworkProvider = createProviderComponent(() => provideNetwork());
 const VeSystemProvider = createProviderComponent(() => provideVeSystem());
-const BalancerPoolsProvider = createProviderComponent(() => {
-  provideBalancerPools();
-});
+const BalancerPoolsProvider = createProviderComponent(() => provideBalancerPools());
+
 </script>
 
 <template>
@@ -22,12 +20,7 @@ const BalancerPoolsProvider = createProviderComponent(() => {
         <div class="network-select">
           <Wallet />
         </div>
-        <div class="main-container">
-          <div class="body-container">
-            <GrantWhitelist />
-            <RemoveWhitelist />
-          </div>
-        </div>
+        <WhitelistCheck />
       </VeSystemProvider>
     </BalancerPoolsProvider>
   </NetworkProvider>
@@ -38,7 +31,6 @@ const BalancerPoolsProvider = createProviderComponent(() => {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
 }
 
 .main-container {
@@ -53,9 +45,8 @@ const BalancerPoolsProvider = createProviderComponent(() => {
 }
 
 .body-container {
-  padding: 20px;
+  padding-bottom: 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   width: 100%;
 }

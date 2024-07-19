@@ -1,39 +1,25 @@
 <script setup lang="ts">
-import { keccak256, toUtf8Bytes } from 'ethers';
-import { computed, ref, watch } from 'vue';
 import { useWeb3ModalProvider } from '@web3modal/ethers/vue';
-
-import { useVeSystem } from '../../../providers/veSystem';
 import { useNetwork } from '../../../providers/network';
-import { useController } from '../../../utils/RewardsDistributionController';
+import { useWhitelistController } from '../../../utils/WhitelistController';
+import GrantRewardDistributorRole from './GrantRewardDistributorRole.vue';
+import { useVeSystem } from '../../../providers/veSystem';
+import ItemSelector, { ItemType } from '../ItemSelector.vue';
+import { computed, ref, watch } from 'vue';
 import { VeSystem, debounce } from '../../../utils';
 
-
 const { walletProvider } = useWeb3ModalProvider();
-const { selected: veSystem } = useVeSystem();
 const { network } = useNetwork();
-const { grantRole } = useController({
+const { removeAddress } = useWhitelistController({
   walletProvider,
   network,
-  veSystem,
 });
-
-
-const REWARD_DISTRIBUTOR_ROLE = keccak256(toUtf8Bytes("REWARD_DISTRIBUTOR_ROLE"));
-const filteredVeSystems = ref<VeSystem[]>([]);
 const address = ref<string>('');
 const isLoading = ref<boolean>(false);
 
-const items = computed(() => {
-  return filteredVeSystems.value.map(x => ({
-    id: x.id,
-    name: x.votingEscrow.name,
-  }));
-});
-
 const handleSubmit = async () => {
-  await grantRole.value?.(
-    { account: address.value, role: REWARD_DISTRIBUTOR_ROLE},
+  await removeAddress.value?.(
+    { address: address.value },
     {
       onPrompt: () => {
         console.log('prompt');
@@ -59,33 +45,32 @@ const handleSubmit = async () => {
 const clearForm = () => {
   address.value = '';
 };
-
-
-watch(items, value => console.log('items', value));
 </script>
 
 <template>
   <div class="section-container">
-    <div v-if="veSystem !== undefined" class="item-row">
-      <p class="item-name">Grant Reward Distributor Role</p>
+    <div class="section-container">
+    <div class="item-row">
+      <p class="item-name">Remove whitelist</p>
       <div class="item-action">
-      <div class="input-group">
-        <input
-          v-model="address"
-          placeholder="0xa0b...6eb48"
-          type="text"
-          class="input"
-        />
+        <div class="input-group">
+          <input
+            v-model="address"
+            placeholder="0xa0b...6eb48"
+            type="text"
+            class="input"
+          />
+        </div>
+        <button
+          :disabled="isLoading"
+          class="submit-button"
+          @click="handleSubmit"
+        >
+          Remove
+        </button>
       </div>
-      <button
-        :disabled="isLoading"
-        class="submit-button"
-        @click="handleSubmit"
-      >
-        Grant
-      </button>
     </div>
-    </div>
+  </div>
   </div>
 </template>
 
@@ -108,6 +93,7 @@ input[type='number'] {
   max-width: 700px;
   height: 45px;
   gap: 10px;
+  padding-bottom: 10px;
 }
 
 .item-row .item-name {
@@ -189,7 +175,7 @@ input[type='number'] {
 
 .submit-button {
   min-width: 75px;
-  height: 45px;
+  height: 40px;
   background-color: #eaf0f6;
   border-radius: 6px;
   cursor: pointer;
