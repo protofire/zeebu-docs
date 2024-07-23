@@ -7,6 +7,7 @@ contract Whitelist {
 
     event WhitelistedAddressAdded(address addr);
     event WhitelistedAddressRemoved(address addr);
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     modifier onlyOwner() {
         require(msg.sender == owner, "Only owner can call this function");
@@ -20,6 +21,7 @@ contract Whitelist {
 
     constructor() {
         owner = msg.sender;
+        emit OwnershipTransferred(address(0), msg.sender);
     }
 
     function addAddressToWhitelist(address addr) public onlyOwner {
@@ -34,5 +36,16 @@ contract Whitelist {
 
     function isWhitelisted(address addr) public view returns (bool) {
         return whitelistedAddresses[addr];
+    }
+
+    function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0), "New owner is the zero address");
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+    }
+
+    function renounceOwnership() public onlyOwner {
+        emit OwnershipTransferred(owner, address(0));
+        owner = address(0);
     }
 }
