@@ -21,7 +21,9 @@ contract Whitelist {
 
     constructor() {
         owner = msg.sender;
-        emit OwnershipTransferred(address(0), msg.sender);
+        whitelistedAddresses[owner] = true;
+        emit OwnershipTransferred(address(0), owner);
+        emit WhitelistedAddressAdded(owner);
     }
 
     function addAddressToWhitelist(address addr) public onlyOwner {
@@ -41,11 +43,17 @@ contract Whitelist {
     function transferOwnership(address newOwner) public onlyOwner {
         require(newOwner != address(0), "New owner is the zero address");
         emit OwnershipTransferred(owner, newOwner);
+        whitelistedAddresses[owner] = false;
+        whitelistedAddresses[newOwner] = true;
         owner = newOwner;
+        emit WhitelistedAddressRemoved(owner);
+        emit WhitelistedAddressAdded(newOwner);
     }
 
     function renounceOwnership() public onlyOwner {
         emit OwnershipTransferred(owner, address(0));
+        whitelistedAddresses[owner] = false;
+        emit WhitelistedAddressRemoved(owner);
         owner = address(0);
     }
 }

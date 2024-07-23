@@ -106,7 +106,7 @@ export const CONFIG = new Map<number, Config>([
       LENS_REWARD_CONTRACT: '0xB71aA6EAA551523d7f449E899FB12af5227A7665',
       BALANCER_SUBGRAPH_URL:
         'https://api.studio.thegraph.com/query/24660/balancer-sepolia-v2/version/latest',
-      WHITELIST_CONTRACT: '0x8b14dab5596dca6a41413d1d03aa03321e03a47d',
+      WHITELIST_CONTRACT: '0xd7b06c097d4f927b595d29ea362e93a3db182c9f',
     },
   ],
 ]);
