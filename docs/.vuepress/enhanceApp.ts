@@ -5,7 +5,7 @@ export default defineClientConfig({
   enhance({ router }) {
     router.beforeEach((to, from, next) => {
       const loginRoutes = ['/login.html']; // Add all login routes here
-      const isAdmin = localStorage.getItem('isAdmin') === 'true';
+      const isAdmin = typeof window !== 'undefined' && window.localStorage.getItem('isAdmin') === 'true';
       if (loginRoutes.includes(to.path) || isAdmin) {
         next();
       } else {

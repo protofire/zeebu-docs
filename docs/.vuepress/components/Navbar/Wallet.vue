@@ -55,8 +55,10 @@ watch(isConnected, value => {
 // Logout function
 const logout = () => {
   console.log('Logging out');
-  localStorage.removeItem('isAdmin');
-  localStorage.removeItem('userAddress');
+  if (typeof window !== 'undefined') {
+    window.localStorage.removeItem('isAdmin');
+    window.localStorage.removeItem('userAddress');
+  }
 };
 
 onMounted(() => {

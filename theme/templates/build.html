@@ -15,7 +15,7 @@
       }
     </style>
     <script>
-      const userMode = localStorage.getItem('vuepress-color-scheme');
+      const userMode = typeof window !== 'undefined' && window.localStorage.getItem('vuepress-color-scheme');
 			const systemDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 			if (userMode === 'dark' || (userMode !== 'light' && systemDarkMode)) {
 				document.documentElement.classList.toggle('dark', true);

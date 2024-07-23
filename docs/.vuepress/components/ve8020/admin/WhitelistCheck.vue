@@ -15,7 +15,7 @@ const { checkWhitelist } = useWhitelistController({
 });
 
 const isAdmin = ref(false);
-isAdmin.value = localStorage.getItem('isAdmin') === 'true';
+isAdmin.value = (typeof window !== 'undefined' && window.localStorage.getItem('isAdmin') === 'true');
 
 // Debounce function to limit the rate of API calls
 const debounce = (func, wait) => {
@@ -29,9 +29,12 @@ const debounce = (func, wait) => {
 // Update user state based on whitelist status
 const updateUserState = (account, isWhitelisted) => {
   if (isWhitelisted) {
-    localStorage.setItem('isAdmin', 'true');
+    console.log('User is whitelisted as an admin');
     isAdmin.value = true;
-    localStorage.setItem('userAddress', account);
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem('isAdmin', 'true');
+      window.localStorage.setItem('userAddress', account);
+    }
   } else {
     alert("You are not whitelisted as an admin.");
   }
@@ -51,8 +54,10 @@ watch(isConnected, debounce(async (newValue) => {
     await handleCheckWhitelist(address.value);
   } else {
     isAdmin.value = false;
-    localStorage.removeItem('isAdmin');
-    localStorage.removeItem('userAddress');
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem('isAdmin');
+      window.localStorage.removeItem('userAddress');
+    }
   }
 }, 300));
 
