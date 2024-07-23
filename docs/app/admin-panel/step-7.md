@@ -1,8 +1,8 @@
 ---
-title: "Apply for BAL Airdrop to ZBU stakers adding ~16% APY (Optional)"
+title: "Add or remove whitelisted admin address"
 order: 6
 ---
 
-### Apply for BAL Airdrop to ZBU stakers adding ~16% APY (Optional)
+### Add or remove whitelisted admin address [only for owner]
 
 <ve8020-admin-Step7 />

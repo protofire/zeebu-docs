@@ -5,6 +5,7 @@ type Config = {
   LAUNCHPAD_CONTRACT: string;
   LENS_REWARD_CONTRACT: string;
   BALANCER_SUBGRAPH_URL: string;
+  WHITELIST_CONTRACT?: string;
 };
 
 export const CONFIG = new Map<number, Config>([
@@ -105,6 +106,7 @@ export const CONFIG = new Map<number, Config>([
       LENS_REWARD_CONTRACT: '0xB71aA6EAA551523d7f449E899FB12af5227A7665',
       BALANCER_SUBGRAPH_URL:
         'https://api.studio.thegraph.com/query/24660/balancer-sepolia-v2/version/latest',
+      WHITELIST_CONTRACT: '0xd7b06c097d4f927b595d29ea362e93a3db182c9f',
     },
   ],
 ]);

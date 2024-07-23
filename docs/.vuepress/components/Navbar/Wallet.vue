@@ -40,11 +40,26 @@ createWeb3Modal({
   },
 });
 
-const { chainId } = useWeb3ModalAccount();
+const { chainId, isConnected } = useWeb3ModalAccount();
 
 watch(chainId, value => {
   selectNetwork(NETWORKS.find(x => x.id === value));
 });
+
+watch(isConnected, value => {
+  if (!value) {
+    logout();
+  }
+});
+
+// Logout function
+const logout = () => {
+  console.log('Logging out');
+  if (typeof window !== 'undefined') {
+    window.localStorage.removeItem('isAdmin');
+    window.localStorage.removeItem('userAddress');
+  }
+};
 
 onMounted(() => {
   if (!chainId.value) return;
